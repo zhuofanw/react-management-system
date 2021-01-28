@@ -39,8 +39,9 @@ const NormalLoginForm = (props) => {
 		if (values) {
 			const { username, password } = values;
 			const result = await reqLogin(username, password);
-			// const result = response.data; //{status:0, data:user} {status:1, msg:'xxx'}
+			// const result = response.data; //成功：{status:0, data:{userDetails}} // 失败：{status:1, msg:'xxx'}
 			const user = result.data;
+			console.log(user);
 			memoryUtils.user = user; //保存在内存中
 			storageUtils.saveUser(user); //保存在localstorage里
 			if (result.status === 0) {

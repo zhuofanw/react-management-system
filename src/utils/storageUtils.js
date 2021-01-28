@@ -4,7 +4,7 @@
 import store from "store";
 
 const USER_KEY = "user_key";
-export default {
+const storageUtils = {
 	// 保存user
 	saveUser(user) {
 		// localStorage.setItem(USER_KEY, JSON.stringify(user)); //setItem(string,string)
@@ -20,3 +20,4 @@ export default {
 		store.remove(USER_KEY);
 	},
 };
+export default storageUtils;
