@@ -1,21 +1,15 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import logo from "../../assets/images/logo.svg";
 import { Menu } from "antd";
-import {
-	HomeOutlined,
-	UserOutlined,
-	PieChartOutlined,
-	DesktopOutlined,
-	MailOutlined,
-} from "@ant-design/icons";
 import menuList from "../../config/menuConfig";
 import "./index.less";
 
 const { SubMenu } = Menu;
-export default class LeftNav extends Component {
+class LeftNav extends Component {
 	// 根据menu的数据数组生成对应的标签数组
 	getMenuNodes = (menuList) => {
+		const path = this.props.location.pathname;
 		return menuList.map((item) => {
 			if (!item.children) {
 				return (
@@ -24,6 +18,10 @@ export default class LeftNav extends Component {
 					</Menu.Item>
 				);
 			} else {
+				//查找一个与当前请求路径匹配的子Item
+				const cItem = item.children.find((cItem) => cItem.key === path);
+				//如果存在，说明当前item的子列表需要打开
+				if (cItem) this.openKey = item.key;
 				return (
 					<SubMenu key={item.key} icon={item.icon} title={item.title}>
 						{this.getMenuNodes(item.children)}
@@ -32,7 +30,12 @@ export default class LeftNav extends Component {
 			}
 		});
 	};
+	UNSAFE_componentWillMount() {
+		this.menuNodes = this.getMenuNodes(menuList);
+	}
 	render() {
+		const path = this.props.location.pathname;
+		// console.log(this.openKey);
 		return (
 			<div className="left-nav">
 				<Link to="/" className="left-nav-header">
@@ -40,8 +43,8 @@ export default class LeftNav extends Component {
 					<h1>管理系统后台</h1>
 				</Link>
 				<Menu
-					defaultSelectedKeys={["1"]}
-					defaultOpenKeys={["sub1"]}
+					selectedKeys={[path]}
+					defaultOpenKeys={[this.openKey]}
 					mode="inline"
 					theme="dark"
 				>
@@ -73,10 +76,10 @@ export default class LeftNav extends Component {
 							<Link to="/charts/pie">饼状图</Link>
 						</Menu.Item>
 					</SubMenu> */}
-
-					{this.getMenuNodes(menuList)}
+					{this.menuNodes}
 				</Menu>
 			</div>
 		);
 	}
 }
+export default withRouter(LeftNav);
