@@ -8,7 +8,7 @@ import memoryUtils from "../../utils/memoryUtils";
 import storageUtils from "../../utils/storageUtils";
 
 import "./index.less";
-import logo from "./images/logo.svg";
+import logo from "../../assets/images/logo.svg";
 
 class Login extends Component {
 	render() {
