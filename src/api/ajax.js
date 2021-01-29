@@ -2,6 +2,7 @@ import axios from "axios";
 import { message } from "antd";
 //封装axios,返回值是promise对象
 export default function ajax(url, data = {}, method = "GET") {
+	// 目的：统一处理error
 	return new Promise((resolve, reject) => {
 		let promise;
 		if (method === "GET") {
